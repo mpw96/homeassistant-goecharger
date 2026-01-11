@@ -5,7 +5,7 @@ import ipaddress
 import logging
 from datetime import timedelta
 import homeassistant.helpers.config_validation as cv
-from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL, Platform
 from homeassistant.core import valid_entity_id
 from homeassistant import core
 from homeassistant.helpers.discovery import async_load_platform
@@ -67,13 +67,8 @@ async def async_setup_entry(hass, config):
     hass.data[DOMAIN]["api"][name] = charger
 
     await hass.data[DOMAIN]["coordinator"].async_refresh()
+    await hass.config_entries.async_forward_entry_setups(config, [Platform.SENSOR, Platform.SWITCH])
 
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config, "sensor")
-    )
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config, "switch")
-    )
     return True
 
 async def update_listener(hass, config):
@@ -85,13 +80,7 @@ async def update_listener(hass, config):
     hass.data[DOMAIN]["api"][name] = charger
 
     await hass.data[DOMAIN]["coordinator"].async_refresh()
-
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config, "sensor")
-    )
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config, "switch")
-    )
+    await hass.config_entries.async_forward_entry_setups(config, [Platform.SENSOR, Platform.SWITCH])
 
     return True
 

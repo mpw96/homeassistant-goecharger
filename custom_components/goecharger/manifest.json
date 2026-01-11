@@ -10,7 +10,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/cathiele/homeassistant-goecharger/issues",
   "requirements": [
-    "git+https://github.com/mpw96/goecharger.git@0.1.1"
+    "goecharger@git+https://github.com/mpw96/goecharger.git@0.1.1"
   ],
   "version": "0.27.3"
 }
